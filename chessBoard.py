@@ -6,7 +6,7 @@ from math import *
 
 def drawMaze(maxWindowSize, fileName, listOfPath, visited):
     fileObj = open(fileName, 'r')
-    listMaze = [list(line[0:-1]) for line in fileObj]
+    listMaze = [list(line.strip('\n')) for line in fileObj]
     row = len(listMaze)
     column = len(listMaze[0])
 
@@ -43,8 +43,7 @@ def drawMaze(maxWindowSize, fileName, listOfPath, visited):
 def aStar(fileName, start, dest):
     nextTilesDict = {}
     fileObj = open(fileName, 'r')
-    print(fileObj)
-    matrix = [list(line[0:-1]) for line in fileObj]
+    matrix = [list(line.strip()) for line in fileObj]
     column = len(matrix[0])-1
     row = len(matrix)-1
     
@@ -127,9 +126,7 @@ def aStar(fileName, start, dest):
 
         # assign cTile with head of pQueue
         found = False
-        i = 0
         while (not nextTiles.empty() and not found):
-            i += 1
             data = nextTiles.get()[1]  # (point, distance)
             parent = data[2]
             distance = data[1]
@@ -137,7 +134,6 @@ def aStar(fileName, start, dest):
 
             visited[nextTilePoint] = parent  # parent
             cTile = nextTilePoint
-            # print(cTile)
             if cTile == dest:
                 found = True
                 print("Found path!")
@@ -174,13 +170,13 @@ def aStar(fileName, start, dest):
                 # print(cTile)
                 path.append(cTile)
                 cTile = visited[cTile]
-            drawMaze(800, 'input.txt', path, visited)
+            drawMaze(1200, 'input.txt', path, visited)
 
 
 def BFS(fileName, start, dest):
     nextTilesDict = {}
     fileObj = open(fileName, 'r')
-    matrix = [list(line[0:-1]) for line in fileObj]
+    matrix = [list(line.strip()) for line in fileObj]
     column = len(matrix[0])-1
     row = len(matrix)-1
     if not ((0 <= start[0] <= column) and (0 <= start[1] <= row) and (0 <= dest[0] <= column) and (0 <= dest[1] <= row) and matrix[start[1]][start[0]]=='0' and matrix[dest[1]][dest[0]]=='0'):
@@ -299,7 +295,7 @@ def BFS(fileName, start, dest):
                 # print(cTile)
                 path.append(cTile)
                 cTile = visited[cTile]
-            drawMaze(800, 'input.txt', path, visited)
+            drawMaze(1200, 'input.txt', path, visited)
 
 
 print("Ingin menjalankan algoritma apa?")
