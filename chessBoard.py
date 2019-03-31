@@ -40,7 +40,7 @@ def drawMaze(maxWindowSize, fileName, listOfPath, visited):
     image.show(title='Maze')
 
 
-def aStar(fileName, start, dest):
+def aStar(fileName):
     nextTilesDict = {}
     fileObj = open(fileName, 'r')
     matrix = [list(line.strip()) for line in fileObj]
@@ -51,6 +51,29 @@ def aStar(fileName, start, dest):
     nextTiles = PriorityQueue()
     cTile = None
     
+    startList = []
+    i = 0
+    Found = False
+    while (i < len(matrix) and Found == False):
+        if matrix[i][0] == '0':
+            startList.append(0)
+            startList.append(i)
+            Found = True
+        i += 1
+    start = tuple(startList)
+
+    destList = []
+    i = 0
+    Found = False
+    column = len(matrix[0])-1
+    while (i < len(matrix) and Found == False):
+        if matrix[i][column] == '0':
+            destList.append(column)
+            destList.append(i)
+            Found = True
+        i += 1
+    dest = tuple(destList)
+
     if not ((0 <= start[0] <= column) and (0 <= start[1] <= row) and (0 <= dest[0] <= column) and (0 <= dest[1] <= row) and matrix[start[1]][start[0]]=='0' and matrix[dest[1]][dest[0]]=='0'):
         print("Input tidak valid!")
     else:
@@ -170,15 +193,38 @@ def aStar(fileName, start, dest):
                 # print(cTile)
                 path.append(cTile)
                 cTile = visited[cTile]
-            drawMaze(1200, 'input.txt', path, visited)
+            drawMaze(1200, fileName, path, visited)
 
 
-def BFS(fileName, start, dest):
+def BFS(fileName):
     nextTilesDict = {}
     fileObj = open(fileName, 'r')
     matrix = [list(line.strip()) for line in fileObj]
     column = len(matrix[0])-1
     row = len(matrix)-1
+    startList = []
+    i = 0
+    Found = False
+    while (i < len(matrix) and Found == False):
+        if matrix[i][0] == '0':
+            startList.append(0)
+            startList.append(i)
+            Found = True
+        i += 1
+    start = tuple(startList)
+
+    destList = []
+    i = 0
+    Found = False
+    column = len(matrix[0])-1
+    while (i < len(matrix) and Found == False):
+        if matrix[i][column] == '0':
+            destList.append(column)
+            destList.append(i)
+            Found = True
+        i += 1
+    dest = tuple(destList)
+
     if not ((0 <= start[0] <= column) and (0 <= start[1] <= row) and (0 <= dest[0] <= column) and (0 <= dest[1] <= row) and matrix[start[1]][start[0]]=='0' and matrix[dest[1]][dest[0]]=='0'):
         print("Input tidak valid!")
     else:
@@ -295,9 +341,10 @@ def BFS(fileName, start, dest):
                 # print(cTile)
                 path.append(cTile)
                 cTile = visited[cTile]
-            drawMaze(1200, 'input.txt', path, visited)
+            drawMaze(1200, fileName, path, visited)
 
-
+print("Masukan nama file (dengan .txt) :")
+fileName = input(">> ")
 print("Ingin menjalankan algoritma apa?")
 print()
 print("1. AStar")
@@ -305,10 +352,8 @@ print("2. BFS")
 print()
 choice = int(input(">> "))
 if choice == 1:
-    x1,y1,x2,y2 = [int(x) for x in input("Masukkan koordinat pintu masuk dan keluar(x1 y1 x2 y2):").split()]
-    aStar('input.txt', (x1, y1), (x2, y2))
+    aStar(fileName)
 elif choice == 2:
-    x1,y1,x2,y2 = [int(x) for x in input("Masukkan koordinat pintu masuk dan keluar(x1 y1 x2 y2):").split()]
-    BFS('input.txt', (x1, y1), (x2, y2))
+    BFS(fileName)
 else:
     print("Tidak ada pilihan tersebut")
